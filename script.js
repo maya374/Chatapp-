@@ -1,41 +1,54 @@
-// Firebase Config — Your Real Working Setup
-const firebaseConfig = {
-  apiKey: "AIzaSyCHl3IJqNmdlqM7uSdl4Jg5vW_F78v-uwM",
-  authDomain: "chat-app-f6746.firebaseapp.com",
-  projectId: "chat-app-f6746",
-  storageBucket: "chat-app-f6746.appspot.com",
-  messagingSenderId: "558803570428",
-  appId: "1:558803570428:web:ba1cc9b16bc615b7029179",
-  databaseURL: "https://chat-app-f6746-default-rtdb.asia-southeast1.firebasedatabase.app"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-
-// Send message
-function sendMessage() {
-  const name = document.getElementById("username").value.trim();
-  const text = document.getElementById("message").value.trim();
-  if (!name || !text) return;
-
-  const msg = {
-    name: name,
-    message: text,
-    timestamp: Date.now()
-  };
-
-  db.ref("messages").push(msg);
-  document.getElementById("message").value = "";
+body {
+  font-family: Arial, sans-serif;
+  background: #121212;
+  color: white;
+  margin: 0;
+  padding: 0;
 }
 
-// Show messages in real-time
-db.ref("messages").on("child_added", snapshot => {
-  const msg = snapshot.val();
-  const messagesDiv = document.getElementById("messages");
-  const el = document.createElement("div");
-  el.className = "message";
-  el.innerHTML = `<strong>${msg.name}</strong>: ${msg.message} <br><small>${new Date(msg.timestamp).toLocaleTimeString()}</small>`;
-  messagesDiv.appendChild(el);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-});
+.chat-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #1e1e1e;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #000;
+}
+
+#messages {
+  height: 300px;
+  overflow-y: auto;
+  background: #2c2c2c;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.message {
+  margin-bottom: 10px;
+  padding: 8px;
+  background: #3a3a3a;
+  border-radius: 5px;
+}
+
+.input-area {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.input-area input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+}
+
+.input-area button {
+  background: #ff4757;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
